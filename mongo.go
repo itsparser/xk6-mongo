@@ -41,7 +41,7 @@ func (*Mongo) NewClient(connURI string) interface{} {
 
 const filter_is string = "filter is "
 
-func (c *Client) Insert(database string, collection string, doc map[string]string) error {
+func (c *Client) Insert(database string, collection string, doc interface{}) error {
 	db := c.client.Database(database)
 	col := db.Collection(collection)
 	_, err := col.InsertOne(context.TODO(), doc)
@@ -77,7 +77,7 @@ func (c *Client) Find(database string, collection string, filter interface{}) []
 	return results
 }
 
-func (c *Client) FindOne(database string, collection string, filter map[string]string) error {
+func (c *Client) FindOne(database string, collection string, filter interface{}) error {
 	db := c.client.Database(database)
 	col := db.Collection(collection)
 	var result bson.M
@@ -95,7 +95,7 @@ func (c *Client) FindOne(database string, collection string, filter map[string]s
 	return nil
 }
 
-func (c *Client) UpdateOne(database string, collection string, filter interface{}, data map[string]string) error {
+func (c *Client) UpdateOne(database string, collection string, filter interface{}, data interface{}) error {
 	// var result bson.M
 	db := c.client.Database(database)
 	col := db.Collection(collection)
@@ -130,7 +130,7 @@ func (c *Client) FindAll(database string, collection string) []bson.M {
 	return results
 }
 
-func (c *Client) DeleteOne(database string, collection string, filter map[string]string) error {
+func (c *Client) DeleteOne(database string, collection string, filter interface{}) error {
 	db := c.client.Database(database)
 	col := db.Collection(collection)
 	opts := options.Delete().SetHint(bson.D{{"_id", 1}})
@@ -143,7 +143,7 @@ func (c *Client) DeleteOne(database string, collection string, filter map[string
 	return nil
 }
 
-func (c *Client) DeleteMany(database string, collection string, filter map[string]string) error {
+func (c *Client) DeleteMany(database string, collection string, filter interface{}) error {
 	db := c.client.Database(database)
 	col := db.Collection(collection)
 	opts := options.Delete().SetHint(bson.D{{"_id", 1}})
